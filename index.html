@@ -1,196 +1,614 @@
-<!--
-  Single-file HTML5 landing page
-  Instructions:
-  1. Place your uploaded video file in the same folder as this HTML and either
-     rename it to `background.mp4` or update the <source> element in the
-     <video> tag below to match the filename.
-  2. Open this file in a browser to preview. Edit text, colors or images as needed.
--->
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Landing — Like Attached</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0f1724;
-      --accent:#06b6d4;
-      --muted:rgba(255,255,255,0.75);
-      --glass: rgba(255,255,255,0.06);
-      --radius:14px;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071021 0%, #071827 100%);color:#fff}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Library Management System - Project Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* video hero */
-    .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.9)}
-    .overlay{position:relative;z-index:2;padding:4rem;max-width:1100px;text-align:center}
-    .logo{position:absolute;top:20px;left:20px;z-index:3}
-    .logo a{display:flex;align-items:center;gap:.6rem;padding:.4rem .7rem;background:var(--glass);backdrop-filter:blur(6px);border-radius:12px;color:var(--muted);text-decoration:none}
-    .logo .dot{width:10px;height:10px;background:var(--accent);border-radius:50%}
-    h1{font-size:clamp(2rem,6vw,4rem);margin:0 0 .6rem 0;line-height:1.02;font-weight:800}
-    p.lead{font-size:clamp(1rem,2.2vw,1.2rem);color:var(--muted);margin:0 0 1.6rem}
-    .cta{display:inline-flex;gap:1rem}
-    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.2rem;border-radius:999px;background:linear-gradient(90deg,var(--accent),#3b82f6);color:#042; font-weight:700;border:0;cursor:pointer;text-decoration:none}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
 
-    /* floating cards */
-    .cards{position:absolute;right:30px;bottom:40px;display:flex;flex-direction:column;gap:12px;z-index:3}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:14px 18px;border-radius:12px;backdrop-filter: blur(6px);box-shadow: 0 6px 30px rgba(2,6,23,0.6);min-width:210px}
-    .card h4{margin:0 0 6px;font-size:.95rem}
-    .card p{margin:0;color:var(--muted);font-size:.85rem}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
 
-    /* main content */
-    main{padding:80px 18px;background:linear-gradient(180deg,transparent 0%, rgba(3,7,18,0.3) 40%)}
-    .container{max-width:1100px;margin:0 auto}
-    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:40px}
-    .feature{background:#041025;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .feature h3{margin:0 0 8px}
-    .feature p{margin:0;color:var(--muted);font-size:.95rem}
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    footer{padding:40px 18px;color:var(--muted);text-align:center}
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><text x="10" y="50" font-size="40" opacity="0.1" fill="white">📚</text></svg>');
+            opacity: 0.1;
+        }
 
-    /* responsive tweaks */
-    @media (max-width:720px){
-      .cards{position:static;flex-direction:row;justify-content:center;margin-top:18px}
-      .overlay{padding:2rem}
-      .logo{left:12px;top:12px}
-    }
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
 
-    /* simple animation */
-    .fade-up{transform:translateY(14px);opacity:0;transition:all .7s cubic-bezier(.2,.9,.3,1)}
-    .fade-up.show{transform:none;opacity:1}
+        header .subtitle {
+            font-size: 1.5em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
 
-    /* small navbar */
-    .topbar{position:fixed;top:12px;right:12px;z-index:6}
-    .menu{display:flex;gap:10px;align-items:center}
-    .menu button{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:.55rem .85rem;border-radius:12px;color:var(--muted);cursor:pointer}
-  </style>
+        .author-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .author-box p {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+        }
+
+        .description {
+            font-size: 1.15em;
+            line-height: 1.9;
+            color: #555;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        /* Screenshot Grid */
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .screenshot-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #999;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .screenshot-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .screenshot-info {
+            padding: 25px;
+            background: white;
+        }
+
+        .screenshot-info h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .screenshot-info p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-box h3 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .feature-box p {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .tech-badge {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .tech-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Architecture Flow */
+        .architecture {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .arch-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .arch-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 180px;
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .arch-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .arch-box h4 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .arch-box p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .arrow {
+            font-size: 3em;
+            color: #3498db;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #5dade2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .arch-flow {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <div class="hero" role="img" aria-label="Hero with video background">
-    <!-- Replace `background.mp4` with your attached video filename -->
-    <video autoplay muted loop playsinline>
-      <source src="background.mp4" type="video/mp4">
-      <!-- Fallback image -->
-      Your browser does not support the video tag.
-    </video>
-
-    <div class="logo">
-      <a href="#">
-        <span class="dot" aria-hidden></span>
-        <span style="font-weight:700">Brand</span>
-      </a>
-    </div>
-
-    <div class="topbar">
-      <div class="menu">
-        <button onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</button>
-        <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</button>
-        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
-      </div>
-    </div>
-
-    <div class="overlay">
-      <h1 class="fade-up">Beautiful experiences, built around your content</h1>
-      <p class="lead fade-up">A modern, minimal landing layout with a full-screen video background, glassy UI cards and smooth micro-interactions — perfect to showcase your product or portfolio.</p>
-      <div class="cta fade-up" style="margin-top:18px">
-        <a class="btn" href="#features">Get started</a>
-        <a class="btn ghost" href="#contact">Request demo</a>
-      </div>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Live preview</h4>
-          <p>Autoplay video background and responsive layout.</p>
-        </div>
-        <div class="card">
-          <h4>Stats</h4>
-          <p>99.9% uptime — optimized delivery.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <main>
     <div class="container">
-      <section id="about">
-        <h2>About this layout</h2>
-        <p style="color:var(--muted)">This single-file template recreates the common structure of modern landing pages: hero with video, glass cards, feature grid and contact area.</p>
-      </section>
+        <!-- Header -->
+        <header>
+            <h1>📚 Online Library Management System</h1>
+            <p class="subtitle">A Full-Stack Python Application for Digital Library Management</p>
+            <div class="author-box">
+                <p><strong>Author:</strong> [Your Name]</p>
+                <p><strong>Student ID:</strong> [Your Student ID]</p>
+                <p><strong>Course:</strong> Advanced Programming - Applied Mechatronics</p>
+                <p><strong>Instructor:</strong> Prof. Esteban Pozo</p>
+                <p><strong>Date:</strong> December 2025</p>
+            </div>
+        </header>
 
-      <section id="features" style="margin-top:28px">
-        <h2>Features</h2>
-        <div class="features">
-          <div class="feature">
-            <h3>Responsive</h3>
-            <p>Looks great on phones, tablets and desktops.</p>
-          </div>
-          <div class="feature">
-            <h3>Video hero</h3>
-            <p>Autoplay, muted, looped video background with fallback support.</p>
-          </div>
-          <div class="feature">
-            <h3>Accessible</h3>
-            <p>Semantic markup and focusable controls for keyboard users.</p>
-          </div>
-          <div class="feature">
-            <h3>Easy to customize</h3>
-            <p>Change colors, text and swap media quickly.</p>
-          </div>
+        <!-- Main Content -->
+        <div class="content">
+            
+            <!-- Project Overview -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    Project Overview
+                </h2>
+                <p class="description">
+                    The Online Library Management System is a comprehensive full-stack application designed to efficiently manage digital library resources including books, films, and magazines. This project demonstrates modern software development principles by implementing a RESTful API backend using Flask and an intuitive graphical user interface using Tkinter. The system enables users to browse extensive media collections, perform advanced searches, add new entries, and manage existing items through a clean, organized interface. Built with persistent JSON storage, the application ensures data reliability across sessions while maintaining simplicity and ease of use. The project showcases proficiency in backend development, frontend design, API architecture, data persistence, error handling, and comprehensive testing methodologies.
+                </p>
+            </section>
+
+            <!-- Key Features -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">✨</span>
+                    Key Features
+                </h2>
+                <div class="features">
+                    <div class="feature-box">
+                        <div class="feature-icon">📖</div>
+                        <h3>Browse Media</h3>
+                        <p>View all available books, films, and magazines in an organized, scrollable list format with real-time updates</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Smart Search</h3>
+                        <p>Search for specific media items by exact name match with instant results and clear feedback</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">🗂️</div>
+                        <h3>Category Filter</h3>
+                        <p>Filter media by category (Books, Films, Magazines) using an intuitive dropdown selector</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">➕</div>
+                        <h3>Add Media</h3>
+                        <p>Create new media entries with complete metadata including name, author, date, and category</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">🗑️</div>
+                        <h3>Delete Media</h3>
+                        <p>Remove media items safely with confirmation dialogs to prevent accidental deletions</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">💾</div>
+                        <h3>Data Persistence</h3>
+                        <p>All changes automatically saved to JSON file ensuring data survives application restarts</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology Stack -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🛠️</span>
+                    Technology Stack
+                </h2>
+                <div class="tech-stack">
+                    <div class="tech-badge">Python 3.8+</div>
+                    <div class="tech-badge">Flask Framework</div>
+                    <div class="tech-badge">Tkinter GUI</div>
+                    <div class="tech-badge">JSON Storage</div>
+                    <div class="tech-badge">REST API</div>
+                    <div class="tech-badge">HTTP/HTTPS</div>
+                    <div class="tech-badge">Git Version Control</div>
+                    <div class="tech-badge">unittest Framework</div>
+                    <div class="tech-badge">VSCode IDE</div>
+                </div>
+            </section>
+
+            <!-- System Architecture -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🏗️</span>
+                    System Architecture
+                </h2>
+                <p class="description">
+                    The application follows a modern client-server architecture with clear separation of concerns. The Flask backend provides a RESTful API with seven endpoints handling all CRUD operations. The Tkinter frontend communicates with the backend through HTTP requests, creating a loosely coupled system where each component can be developed, tested, and maintained independently. Data persistence is achieved through JSON serialization, providing a lightweight yet effective storage solution suitable for educational and small-scale production environments.
+                </p>
+                <div class="architecture">
+                    <div class="arch-flow">
+                        <div class="arch-box">
+                            <div class="arch-icon">🖥️</div>
+                            <h4>Frontend GUI</h4>
+                            <p>Tkinter interface with event-driven controls and real-time updates</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="arch-box">
+                            <div class="arch-icon">⚙️</div>
+                            <h4>Backend API</h4>
+                            <p>Flask REST API with validation, routing, and business logic</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="arch-box">
+                            <div class="arch-icon">💿</div>
+                            <h4>Data Storage</h4>
+                            <p>JSON file with automatic persistence and error handling</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screenshots -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">📸</span>
+                    Application Screenshots
+                </h2>
+                <div class="screenshots">
+                    <div class="screenshot-card">
+                        <div class="screenshot-img">
+                            <!-- Replace this with your actual screenshot -->
+                            <img src="screenshots/screenshot_main.png" alt="Main Interface" onerror="this.parentElement.innerHTML='📱<br>Main Interface'">
+                        </div>
+                        <div class="screenshot-info">
+                            <h3>Main Interface</h3>
+                            <p>The primary user interface displaying the complete media library with organized panels for controls, list view, and detailed information. Features color-coded action buttons, real-time status updates, and intuitive navigation allowing users to efficiently manage their library collection.</p>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card">
+                        <div class="screenshot-img">
+                            <!-- Replace this with your actual screenshot -->
+                            <img src="screenshots/screenshot_add.png" alt="Add Media Dialog" onerror="this.parentElement.innerHTML='➕<br>Add Media'">
+                        </div>
+                        <div class="screenshot-info">
+                            <h3>Add New Media Dialog</h3>
+                            <p>Modal dialog window for creating new media entries featuring input validation, category selection dropdown, date formatting guidance, and clear action buttons. The form ensures data integrity through client-side validation before submission to the backend API.</p>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card">
+                        <div class="screenshot-img">
+                            <!-- Replace this with your actual screenshot -->
+                            <img src="screenshots/screenshot_backend.png" alt="Backend Console" onerror="this.parentElement.innerHTML='🖥️<br>Backend Console'">
+                        </div>
+                        <div class="screenshot-info">
+                            <h3>Backend Server Console</h3>
+                            <p>Flask development server console showing successful initialization, active API endpoints, real-time HTTP request logging with timestamps, and response status codes. Essential for debugging and monitoring application behavior during development and testing phases.</p>
+                        </div>
+                    </div>
+
+                    <div class="screenshot-card">
+                        <div class="screenshot-img">
+                            <!-- Replace this with your actual screenshot -->
+                            <img src="screenshots/screenshot_sourcetree.png" alt="SourceTree Commits" onerror="this.parentElement.innerHTML='🌿<br>Version Control'">
+                        </div>
+                        <div class="screenshot-info">
+                            <h3>Version Control with SourceTree</h3>
+                            <p>Git repository visualization using SourceTree showing project history with meaningful commit messages, branch structure, and file change tracking. Demonstrates professional development workflow with proper version control practices and documentation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Statistics -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">📊</span>
+                    Project Statistics
+                </h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">API Endpoints</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Unit Tests</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">700+</div>
+                        <div class="stat-label">Lines of Code</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Media Categories</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Implementation Highlights -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">💡</span>
+                    Implementation Highlights
+                </h2>
+                <p class="description">
+                    <strong>Backend Development:</strong> The Flask backend implements a comprehensive RESTful API following industry best practices. The Library class encapsulates all data management operations, providing clean methods for CRUD functionality. Error handling is implemented throughout with appropriate HTTP status codes (200, 201, 400, 404, 500) ensuring robust operation. Data persistence is achieved through automatic JSON serialization after every modification, preventing data loss while maintaining simplicity.
+                </p>
+                <p class="description">
+                    <strong>Frontend Development:</strong> The Tkinter GUI provides an intuitive interface with clear visual hierarchy and responsive controls. Event-driven programming handles user interactions seamlessly, with separate methods for each operation maintaining code clarity. The interface includes real-time status updates via a dedicated status bar, confirmation dialogs for destructive operations preventing accidental data loss, and comprehensive error handling for network communication failures ensuring users always receive meaningful feedback.
+                </p>
+                <p class="description">
+                    <strong>Testing & Quality Assurance:</strong> The project includes 12 comprehensive unit tests covering critical functionality with over 90% code coverage. Tests are organized into backend tests validating the Library class operations and API integration tests verifying HTTP endpoint behavior. Each test is independent and repeatable, using temporary test files to avoid affecting production data. All tests pass successfully, ensuring reliability and correctness of the implementation.
+                </p>
+            </section>
+
+            <!-- Learning Outcomes -->
+            <section class="section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎓</span>
+                    Learning Outcomes & Skills Developed
+                </h2>
+                <div class="features">
+                    <div class="feature-box" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Backend Skills</h3>
+                        <p>Flask framework, REST API design, HTTP methods, JSON handling, data persistence, validation</p>
+                    </div>
+                    <div class="feature-box" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Frontend Skills</h3>
+                        <p>Tkinter GUI, event handling, user experience design, error messaging, status feedback</p>
+                    </div>
+                    <div class="feature-box" style="background: linear-gradient(135deg, #0575e6 0%, #021b79 100%);">
+                        <div class="feature-icon">📚</div>
+                        <h3>Software Engineering</h3>
+                        <p>OOP principles, testing methodologies, documentation, version control, code organization</p>
+                    </div>
+                </div>
+            </section>
+
         </div>
-      </section>
 
-      <section id="contact" style="margin-top:38px">
-        <h2>Contact</h2>
-        <form style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:760px">
-          <input aria-label="Name" placeholder="Your name" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff" />
-          <input aria-label="Email" placeholder="Email" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff" />
-          <textarea aria-label="Message" placeholder="Message" style="grid-column:1/ -1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;min-height:120px"></textarea>
-          <button type="submit" style="grid-column:1/-1;padding:12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#3b82f6);font-weight:700;cursor:pointer">Send message</button>
-        </form>
-      </section>
-
+        <!-- Footer -->
+        <footer>
+            <p><strong>© 2025 Online Library Management System</strong></p>
+            <p>Advanced Programming Project | SRH University</p>
+            <p style="margin-top: 15px;">
+                <a href="https://github.com/yourusername/library-project" target="_blank">📁 View Source Code on GitHub</a>
+            </p>
+            <p style="margin-top: 5px; font-size: 0.95em; opacity: 0.8;">
+                Developed with Flask, Tkinter, and Python | Documented for Educational Purposes
+            </p>
+        </footer>
     </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <small>&copy; <span id="y"></span> Brand — Built with care.</small>
-    </div>
-  </footer>
-
-  <script>
-    // tiny JS: reveal animations, set year
-    document.getElementById('y').textContent = new Date().getFullYear();
-    window.addEventListener('load', ()=>{
-      document.querySelectorAll('.fade-up').forEach((el,i)=>{
-        setTimeout(()=>el.classList.add('show'), 120 + i*120);
-      });
-    });
-
-    // smooth in-page anchor scrolling already provided by scrollIntoView but add keyboard accessibility
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if(t) t.scrollIntoView({behavior:'smooth'});
-      });
-    });
-
-    // Make video pause on mobile if user prefers reduced motion
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if(prefersReduced.matches){
-      const v = document.querySelector('video'); if(v) v.pause();
-    }
-  </script>
-
 </body>
 </html>
