@@ -1,0 +1,196 @@
+<!--
+  Single-file HTML5 landing page
+  Instructions:
+  1. Place your uploaded video file in the same folder as this HTML and either
+     rename it to `background.mp4` or update the <source> element in the
+     <video> tag below to match the filename.
+  2. Open this file in a browser to preview. Edit text, colors or images as needed.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing — Like Attached</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --accent:#06b6d4;
+      --muted:rgba(255,255,255,0.75);
+      --glass: rgba(255,255,255,0.06);
+      --radius:14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071021 0%, #071827 100%);color:#fff}
+
+    /* video hero */
+    .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.9)}
+    .overlay{position:relative;z-index:2;padding:4rem;max-width:1100px;text-align:center}
+    .logo{position:absolute;top:20px;left:20px;z-index:3}
+    .logo a{display:flex;align-items:center;gap:.6rem;padding:.4rem .7rem;background:var(--glass);backdrop-filter:blur(6px);border-radius:12px;color:var(--muted);text-decoration:none}
+    .logo .dot{width:10px;height:10px;background:var(--accent);border-radius:50%}
+    h1{font-size:clamp(2rem,6vw,4rem);margin:0 0 .6rem 0;line-height:1.02;font-weight:800}
+    p.lead{font-size:clamp(1rem,2.2vw,1.2rem);color:var(--muted);margin:0 0 1.6rem}
+    .cta{display:inline-flex;gap:1rem}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.2rem;border-radius:999px;background:linear-gradient(90deg,var(--accent),#3b82f6);color:#042; font-weight:700;border:0;cursor:pointer;text-decoration:none}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff}
+
+    /* floating cards */
+    .cards{position:absolute;right:30px;bottom:40px;display:flex;flex-direction:column;gap:12px;z-index:3}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:14px 18px;border-radius:12px;backdrop-filter: blur(6px);box-shadow: 0 6px 30px rgba(2,6,23,0.6);min-width:210px}
+    .card h4{margin:0 0 6px;font-size:.95rem}
+    .card p{margin:0;color:var(--muted);font-size:.85rem}
+
+    /* main content */
+    main{padding:80px 18px;background:linear-gradient(180deg,transparent 0%, rgba(3,7,18,0.3) 40%)}
+    .container{max-width:1100px;margin:0 auto}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:40px}
+    .feature{background:#041025;padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .feature h3{margin:0 0 8px}
+    .feature p{margin:0;color:var(--muted);font-size:.95rem}
+
+    footer{padding:40px 18px;color:var(--muted);text-align:center}
+
+    /* responsive tweaks */
+    @media (max-width:720px){
+      .cards{position:static;flex-direction:row;justify-content:center;margin-top:18px}
+      .overlay{padding:2rem}
+      .logo{left:12px;top:12px}
+    }
+
+    /* simple animation */
+    .fade-up{transform:translateY(14px);opacity:0;transition:all .7s cubic-bezier(.2,.9,.3,1)}
+    .fade-up.show{transform:none;opacity:1}
+
+    /* small navbar */
+    .topbar{position:fixed;top:12px;right:12px;z-index:6}
+    .menu{display:flex;gap:10px;align-items:center}
+    .menu button{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:.55rem .85rem;border-radius:12px;color:var(--muted);cursor:pointer}
+  </style>
+</head>
+<body>
+
+  <div class="hero" role="img" aria-label="Hero with video background">
+    <!-- Replace `background.mp4` with your attached video filename -->
+    <video autoplay muted loop playsinline>
+      <source src="background.mp4" type="video/mp4">
+      <!-- Fallback image -->
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="logo">
+      <a href="#">
+        <span class="dot" aria-hidden></span>
+        <span style="font-weight:700">Brand</span>
+      </a>
+    </div>
+
+    <div class="topbar">
+      <div class="menu">
+        <button onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</button>
+        <button onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</button>
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+      </div>
+    </div>
+
+    <div class="overlay">
+      <h1 class="fade-up">Beautiful experiences, built around your content</h1>
+      <p class="lead fade-up">A modern, minimal landing layout with a full-screen video background, glassy UI cards and smooth micro-interactions — perfect to showcase your product or portfolio.</p>
+      <div class="cta fade-up" style="margin-top:18px">
+        <a class="btn" href="#features">Get started</a>
+        <a class="btn ghost" href="#contact">Request demo</a>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h4>Live preview</h4>
+          <p>Autoplay video background and responsive layout.</p>
+        </div>
+        <div class="card">
+          <h4>Stats</h4>
+          <p>99.9% uptime — optimized delivery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <section id="about">
+        <h2>About this layout</h2>
+        <p style="color:var(--muted)">This single-file template recreates the common structure of modern landing pages: hero with video, glass cards, feature grid and contact area.</p>
+      </section>
+
+      <section id="features" style="margin-top:28px">
+        <h2>Features</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>Responsive</h3>
+            <p>Looks great on phones, tablets and desktops.</p>
+          </div>
+          <div class="feature">
+            <h3>Video hero</h3>
+            <p>Autoplay, muted, looped video background with fallback support.</p>
+          </div>
+          <div class="feature">
+            <h3>Accessible</h3>
+            <p>Semantic markup and focusable controls for keyboard users.</p>
+          </div>
+          <div class="feature">
+            <h3>Easy to customize</h3>
+            <p>Change colors, text and swap media quickly.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" style="margin-top:38px">
+        <h2>Contact</h2>
+        <form style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:760px">
+          <input aria-label="Name" placeholder="Your name" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff" />
+          <input aria-label="Email" placeholder="Email" style="padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff" />
+          <textarea aria-label="Message" placeholder="Message" style="grid-column:1/ -1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;min-height:120px"></textarea>
+          <button type="submit" style="grid-column:1/-1;padding:12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#3b82f6);font-weight:700;cursor:pointer">Send message</button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <small>&copy; <span id="y"></span> Brand — Built with care.</small>
+    </div>
+  </footer>
+
+  <script>
+    // tiny JS: reveal animations, set year
+    document.getElementById('y').textContent = new Date().getFullYear();
+    window.addEventListener('load', ()=>{
+      document.querySelectorAll('.fade-up').forEach((el,i)=>{
+        setTimeout(()=>el.classList.add('show'), 120 + i*120);
+      });
+    });
+
+    // smooth in-page anchor scrolling already provided by scrollIntoView but add keyboard accessibility
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if(t) t.scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    // Make video pause on mobile if user prefers reduced motion
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(prefersReduced.matches){
+      const v = document.querySelector('video'); if(v) v.pause();
+    }
+  </script>
+
+</body>
+</html>
