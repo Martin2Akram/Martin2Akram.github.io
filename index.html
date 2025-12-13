@@ -148,12 +148,18 @@
             font-size: 3em;
             color: #999;
             border-bottom: 3px solid #3498db;
+            overflow: hidden;
         }
 
         .screenshot-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            /* Prevent the image from being cropped.
+               Keep the image contained within the box while preserving aspect ratio. */
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
         }
 
         .screenshot-info {
@@ -481,20 +487,11 @@
                     Application Screenshots
                 </h2>
                 <div class="screenshots">
-                    <div class="screenshot-card">
-                        <div class="screenshot-img">
-                            <!-- User-attached photo: save the actual image as screenshots/attached_photo.png -->
-                            <img src="screenshots/attached_photo.png" alt="Attached Photo" onerror="this.parentElement.innerHTML='🖼️<br>Attached Photo (save image to screenshots/attached_photo.png)'">
-                        </div>
-                        <div class="screenshot-info">
-                            <h3>Attached Photo</h3>
-                            <p>This image was added from the user's attachment. Save the original photo as <code>screenshots/attached_photo.png</code> in the project folder to display it here.</p>
-                        </div>
-                    </div>
+                    
                     <div class="screenshot-card">
                         <div class="screenshot-img">
                             <!-- Replace this with your actual screenshot -->
-                            <img src="screenshots/screenshot_main.png" alt="Main Interface" onerror="this.parentElement.innerHTML='📱<br>Main Interface'">
+                            <img src="screenshots/main.png" alt="Main Interface" onerror="this.parentElement.innerHTML='📱<br>Main Interface'">
                         </div>
                         <div class="screenshot-info">
                             <h3>Main Interface</h3>
@@ -502,21 +499,12 @@
                         </div>
                     </div>
 
-                    <div class="screenshot-card">
-                        <div class="screenshot-img">
-                            <!-- Replace this with your actual screenshot -->
-                            <img src="screenshots/screenshot_add.png" alt="Add Media Dialog" onerror="this.parentElement.innerHTML='➕<br>Add Media'">
-                        </div>
-                        <div class="screenshot-info">
-                            <h3>Add New Media Dialog</h3>
-                            <p>Modal dialog window for creating new media entries featuring input validation, category selection dropdown, date formatting guidance, and clear action buttons. The form ensures data integrity through client-side validation before submission to the backend API.</p>
-                        </div>
-                    </div>
+                    
 
                     <div class="screenshot-card">
                         <div class="screenshot-img">
                             <!-- Replace this with your actual screenshot -->
-                            <img src="screenshots/screenshot_backend.png" alt="Backend Console" onerror="this.parentElement.innerHTML='🖥️<br>Backend Console'">
+                            <img src="screenshots/json.png" alt="Backend Console" onerror="this.parentElement.innerHTML='🖥️<br>Backend Console'">
                         </div>
                         <div class="screenshot-info">
                             <h3>Backend Server Console</h3>
@@ -524,16 +512,7 @@
                         </div>
                     </div>
 
-                    <div class="screenshot-card">
-                        <div class="screenshot-img">
-                            <!-- Replace this with your actual screenshot -->
-                            <img src="screenshots/screenshot_sourcetree.png" alt="SourceTree Commits" onerror="this.parentElement.innerHTML='🌿<br>Version Control'">
-                        </div>
-                        <div class="screenshot-info">
-                            <h3>Version Control with SourceTree</h3>
-                            <p>Git repository visualization using SourceTree showing project history with meaningful commit messages, branch structure, and file change tracking. Demonstrates professional development workflow with proper version control practices and documentation.</p>
-                        </div>
-                    </div>
+                    
                 </div>
             </section>
 
